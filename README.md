@@ -1,2 +1,3 @@
 # space-app-challenge-tutorial
-A series of tutorials for NASA International Space Apps Challenge
+
+This repo contains a series of tutorials for preprocessing and analyzing satellite data, which is useful for NASA International Space App Challenge.

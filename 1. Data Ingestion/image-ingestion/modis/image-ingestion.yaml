@@ -1,0 +1,89 @@
+apiVersion: codeengine.cloud.ibm.com/v1beta1
+kind: JobRun
+metadata:
+  name: image-ingestion
+  labels:
+    product: modis
+spec:
+  jobDefinitionSpec:
+    arraySpec: $JOB_INDICES
+    retryLimit: 5
+    template:
+      containers:
+      - name: image-ingestion
+        image: lchu/satellite-ingestion:modis
+        env:
+        # Env for array size
+        - name: ARRAY_SIZE
+          value: "64"
+        # Envs from secrets
+        - name: IN_ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: in_endpoint_url
+        - name: IN_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: in_api_key
+        - name: IN_RESOURCE_CRN
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: in_resource_crn
+        - name: OUT_ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: out_endpoint_url
+        - name: OUT_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: out_api_key
+        - name: OUT_RESOURCE_CRN
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: out_resource_crn
+        # Envs from configmaps
+        - name: IN_BUCKET              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: in_bucket
+        - name: IN_PREFIX              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: in_prefix
+        - name: IN_SUFFIX              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: in_suffix
+        - name: OUT_BUCKET              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: out_bucket
+        - name: OUT_IMAGE_PREFIX              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: out_image_prefix
+        - name: OUT_XYZ_PREFIX              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: out_xyz_prefix
+        - name: LAYER_SELECTOR              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: layer_selector
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "1"

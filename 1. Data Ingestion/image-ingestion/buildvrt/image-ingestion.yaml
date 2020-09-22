@@ -1,0 +1,59 @@
+apiVersion: codeengine.cloud.ibm.com/v1beta1
+kind: JobRun
+metadata:
+  name: image-ingestion
+  labels:
+    product: buildvrt
+spec:
+  jobDefinitionSpec:
+    arraySpec: 0-63
+    retryLimit: 5
+    template:
+      containers:
+      - name: image-ingestion
+        image: lchu/satellite-ingestion:buildvrt
+        env:
+        # Env for array size
+        - name: ARRAY_SIZE
+          value: "64"
+        # Envs from secrets
+        - name: ENDPOINT_URL
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: endpoint_url
+        - name: ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: access_key_id
+        - name: SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: satellite-secrets
+              key: secret_access_key
+        # Envs from configmaps
+        - name: BUCKET              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: bucket
+        - name: PREFIX              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: prefix
+        - name: SUBPREFIX_DEPTH              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: subprefix_depth
+        - name: RESOLUTION              
+          valueFrom:
+            configMapKeyRef:
+              name: satellite-configs
+              key: resolution
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "1"
