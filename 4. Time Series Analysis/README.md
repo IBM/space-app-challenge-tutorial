@@ -7,4 +7,5 @@ We have seen how we could analyze single satellite image to gain insights, espec
 In this example, we demonstrate how can build time series data from satellite images and extract features from it, which can be further analyzed by other time series ML/AI models.
 
 ## Demo
-Follow [the notebook](./Vegetation%20Feature%20Extraction%20New%20Brunswick.ipynb)
+Follow [the notebook](./Vegetation%20Index%20Temporal%20Feature%20Extraction.ipynb)
+
