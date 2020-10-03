@@ -11,3 +11,6 @@ After raw satellite data is landed in Cloud Object Storage, each image will go t
 
 ## Prerequisites and Implementations
 Check [image-ingestion folder](image-ingestion) for more details.
+
+## Notes:
+Please note that, this part can be the most challenging part to follow during the whole tutorial session. You will need to sign up couple cloud services, as well as acquiring some basic knowledge about things like docker images and kubernetes yaml files. This is, unfortunately, unavoidable as we want to provide you the serverless computation power to do your data processing as the volume of satellite data can be too large to be processed on any laptop. If you find yourself hard to follow, please don't hesitate to reach out.  Also, if you are starting with a relatively small amount of files and is ok with processing the data in your own env to avoid learning this part, you can easily do so by leveraging the image-ingestion.py file as that contains the full functionality to do the data ingestion (everything else is just wrapping that function into a docker image and further into a serverless cluster to do the computation). 
